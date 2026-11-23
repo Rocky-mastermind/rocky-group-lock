@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title>Rocky Chowdhury — Group Lock</title>
+<meta name="description" content="Rocky Chowdhury Group Lock">
+<link rel="icon" href="https://i.imgur.com/9GHOeOO.jpeg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rocky Chowdhury">
+<meta property="og:description" content="Group Lock">
+<meta property="og:image" content="https://i.imgur.com/9GHOeOO.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rocky Chowdhury">
+<meta name="twitter:image" content="https://i.imgur.com/9GHOeOO.jpeg">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:#000;color:#c8ffe0;font-family:'Courier New',monospace;min-height:100vh;overflow-x:hidden}
+#bg{position:fixed;inset:0;z-index:0}
+.vig{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.88) 100%)}
+.scan{position:fixed;left:0;right:0;height:120px;z-index:1;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(0,255,156,.13),transparent);animation:sc 5s linear infinite}
+@keyframes sc{from{top:-130px}to{top:100%}}
+.lines{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px);animation:fl 3s infinite}
+@keyframes fl{0%,100%{opacity:1}48%{opacity:.8}50%{opacity:.45}52%{opacity:.9}}
+.flash{position:fixed;inset:0;z-index:1;pointer-events:none;background:rgba(255,0,60,0);transition:background .08s}
+.flash.on{background:rgba(255,0,60,.08)}
+.wrap{position:relative;z-index:2;max-width:560px;margin:0 auto;padding:26px 16px 60px;animation:shake 7s infinite}
+@keyframes shake{0%,96%,100%{transform:none}97%{transform:translate(-2px,1px)}98%{transform:translate(3px,-1px)}99%{transform:translate(-1px,0)}}
+.head{text-align:center;margin-bottom:22px}
+.logo{position:relative;width:150px;height:150px;margin:0 auto;border-radius:50%;padding:5px;animation:float 3.5s ease-in-out infinite}
+.logo::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(#00ff9c,#00e5ff,#ff2a6d,#00ff9c);animation:spin 3s linear infinite}
+.logo::after{content:"";position:absolute;inset:-12px;border-radius:50%;box-shadow:0 0 40px #00ff9c88;animation:pulse 2.2s infinite}
+.logo img{position:relative;z-index:2;width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid #000;display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 0 70px #00ff9c,0 0 110px #00ff9c55}}
+@keyframes float{50%{transform:translateY(-8px)}}
+h1{position:relative;margin:20px 0 6px;font-size:clamp(28px,9vw,44px);line-height:1.15;letter-spacing:4px;color:#00ff9c;text-shadow:0 0 12px #00ff9c,0 0 30px #00ff9c88;font-weight:900;animation:glow 2s infinite alternate}
+@keyframes glow{from{text-shadow:0 0 8px #00ff9c,0 0 20px #00ff9c66}to{text-shadow:0 0 16px #00ff9c,0 0 45px #00ff9c}}
+h1::before,h1::after{content:attr(data-t);position:absolute;left:0;right:0;top:0}
+h1::before{color:#0ff;animation:g1 2.4s infinite;clip-path:inset(0 0 55% 0)}
+h1::after{color:#ff2a6d;animation:g2 2.4s infinite;clip-path:inset(55% 0 0 0)}
+@keyframes g1{0%,88%,100%{transform:none}90%{transform:translate(-5px,1px)}93%{transform:translate(5px,-2px)}96%{transform:translate(-3px,0)}}
+@keyframes g2{0%,86%,100%{transform:none}89%{transform:translate(5px,1px)}92%{transform:translate(-5px,2px)}95%{transform:translate(3px,0)}}
+.tag{font-size:14px;letter-spacing:6px;color:#00ff9c;font-weight:700}
+.sub{color:#7fd8ab;font-size:13px;letter-spacing:2px;margin-top:8px;min-height:18px}
+.sub::after{content:"█";animation:bl .8s steps(2) infinite}
+@keyframes bl{50%{opacity:0}}
+.card{background:rgba(2,14,10,.82);border:1px solid #00ff9c77;border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 0 35px #00ff9c33,inset 0 0 25px #00ff9c11;backdrop-filter:blur(3px);display:flex;gap:14px;align-items:center;animation:in .6s ease both}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card img{width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid #00ff9c;box-shadow:0 0 18px #00ff9c88;flex:none;background:#010a07}
+.card b{display:block;color:#00ff9c;font-size:16px;text-shadow:0 0 8px #00ff9c88;word-break:break-word}
+.card small{color:#7fd8ab;font-size:12px;word-break:break-all}
+.lock{margin-left:auto;font-size:22px;animation:pulse2 2s infinite}
+@keyframes pulse2{50%{transform:scale(1.2)}}
+.empty{text-align:center;color:#7fd8ab;font-size:14px;padding:18px}
+footer{text-align:center;margin-top:20px;font-size:12px;color:#4f9e7c;letter-spacing:2px}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="vig"></div><div class="scan"></div><div class="lines"></div><div class="flash" id="flash"></div>
+
+<div class="wrap">
+  <div class="head">
+    <div class="logo"><img src="https://i.imgur.com/9GHOeOO.jpeg" alt="Rocky Chowdhury"></div>
+    <h1 data-t="ROCKY CHOWDHURY">ROCKY CHOWDHURY</h1>
+    <div class="tag">[ GROUP LOCK ]</div>
+    <div class="sub" id="typed"></div>
+  </div>
+
+  <div id="list"><div class="empty">লোড হচ্ছে...</div></div>
+  <footer>© ROCKY CHOWDHURY</footer>
+</div>
+
+<script>
+// ---------- Hacker rain ----------
+const c=document.getElementById('bg'),x=c.getContext('2d');
+let cols,drops,spd;
+const chars="01ABCDEF{}<>/\\|$#@%&アイウエオカキクRCH░▒▓";
+const words=["ROCKY CHOWDHURY","ACCESS GRANTED","GROUP LOCKED","ENCRYPTING...","ROOT@ROCKY","FIREWALL BYPASSED","0xDEADBEEF"];
+const alerts=[];
+function sz(){c.width=innerWidth;c.height=innerHeight;cols=Math.floor(c.width/14);
+  drops=Array.from({length:cols},()=>Math.random()*-60);spd=Array.from({length:cols},()=>.4+Math.random()*1.1)}
+sz();addEventListener('resize',sz);
+setInterval(()=>{
+  x.fillStyle="rgba(0,0,0,.1)";x.fillRect(0,0,c.width,c.height);x.font="14px monospace";
+  for(let i=0;i<cols;i++){
+    const r=Math.random();
+    x.fillStyle=r>.985?"#ff2a6d":r>.96?"#ffffff":r>.9?"#00e5ff":"#00ff9c";
+    x.fillText(chars[Math.floor(Math.random()*chars.length)],i*14,drops[i]*14);
+    if(drops[i]*14>c.height&&Math.random()>.97)drops[i]=0;
+    drops[i]+=spd[i];
+  }
+  if(Math.random()>.985)alerts.push({t:words[Math.floor(Math.random()*words.length)],x:Math.random()*c.width*.6,y:Math.random()*c.height,l:40});
+  for(let i=alerts.length-1;i>=0;i--){
+    const a=alerts[i];x.font="bold 16px monospace";x.fillStyle="rgba(255,42,109,"+(a.l/40)+")";
+    x.fillText("["+a.t+"]",a.x,a.y);if(--a.l<=0)alerts.splice(i,1);
+  }
+},45);
+
+const fl=document.getElementById('flash');
+setInterval(()=>{if(Math.random()>.7){fl.classList.add('on');setTimeout(()=>fl.classList.remove('on'),90)}},2500);
+
+const lines=["> initializing secure channel...","> rocky chowdhury // group lock","> locked groups online_"];
+let li=0,ci=0;const ty=document.getElementById('typed');
+(function t(){
+  ty.textContent=lines[li].slice(0,ci++);
+  if(ci>lines[li].length){ci=0;li=(li+1)%lines.length;setTimeout(t,1600)}else setTimeout(t,60);
+})();
+
+// ---------- লক করা গ্রুপের তালিকা (groups.json থেকে) ----------
+(async()=>{
+  const box=document.getElementById('list');
+  try{
+    const r=await fetch('/groups.json?t='+Date.now(),{cache:'no-store'});
+    const j=await r.json();
+    const ids=Object.keys(j).filter(k=>/^\d{6,20}$/.test(k)&&j[k]&&j[k].name);
+    box.innerHTML='';
+    if(!ids.length){box.innerHTML='<div class="empty">কোনো গ্রুপ লক করা নেই</div>';return}
+    ids.forEach((id,i)=>{
+      const g=j[id],d=document.createElement('div');
+      d.className='card';d.style.animationDelay=(i*.12)+'s';
+      const im=document.createElement('img');
+      im.src=g.photo||'https://i.imgur.com/9GHOeOO.jpeg';im.alt='';
+      im.onerror=()=>{im.src='https://i.imgur.com/9GHOeOO.jpeg'};
+      const t=document.createElement('div');
+      const b=document.createElement('b');b.textContent=g.name;
+      const s=document.createElement('small');s.textContent='ID: '+id;
+      t.appendChild(b);t.appendChild(s);
+      const l=document.createElement('div');l.className='lock';l.textContent='🔒';
+      d.appendChild(im);d.appendChild(t);d.appendChild(l);box.appendChild(d);
+    });
+  }catch(e){box.innerHTML='<div class="empty">groups.json পড়া যায়নি</div>'}
+})();
+</script>
+</body>
+</html>
