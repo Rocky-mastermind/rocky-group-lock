@@ -81,8 +81,13 @@ let cols,drops,spd;
 const chars="01ABCDEF{}<>/\\|$#@%&アイウエオカキクRCH░▒▓";
 const words=["ROCKY CHOWDHURY","ACCESS GRANTED","GROUP LOCKED","ENCRYPTING...","ROOT@ROCKY","FIREWALL BYPASSED","0xDEADBEEF"];
 const alerts=[];
-function sz(){c.width=innerWidth;c.height=innerHeight;cols=Math.floor(c.width/14);
-  drops=Array.from({length:cols},()=>Math.random()*-60);spd=Array.from({length:cols},()=>.4+Math.random()*1.1)}
+function sz(){
+  c.width=innerWidth;
+  c.height=innerHeight;
+  cols=Math.floor(c.width/14);
+  drops=Array.from({length:cols},()=>Math.random()*-60);
+  spd=Array.from({length:cols},()=>.4+Math.random()*1.1);
+}
 sz();addEventListener('resize',sz);
 setInterval(()=>{
   x.fillStyle="rgba(0,0,0,.1)";x.fillRect(0,0,c.width,c.height);x.font="14px monospace";
@@ -113,26 +118,67 @@ let li=0,ci=0;const ty=document.getElementById('typed');
 // ---------- লক করা গ্রুপের তালিকা (groups.json থেকে) ----------
 (async()=>{
   const box=document.getElementById('list');
+  const fallbackImg='https://i.imgur.com/9GHOeOO.jpeg';
   try{
-    const r=await fetch('/groups.json?t='+Date.now(),{cache:'no-store'});
+    const r=await fetch('./groups.json?t='+Date.now(),{cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
     const j=await r.json();
-    const ids=Object.keys(j).filter(k=>/^\d{6,20}$/.test(k)&&j[k]&&j[k].name);
+    
+    let items=[];
+    if(Array.isArray(j)){
+      items=j.map((g,idx)=>({
+        id: g.id || g.threadID || g.groupId || (idx+1),
+        name: g.name || g.title || g.groupName || 'Unnamed Group',
+        photo: g.photo || g.image || g.avatar || fallbackImg
+      }));
+    } else if(j && typeof j==='object'){
+      items=Object.keys(j)
+        .filter(k=>j[k] && typeof j[k]==='object')
+        .map(k=>({
+          id: k,
+          name: j[k].name || j[k].title || j[k].groupName || 'Unnamed Group',
+          photo: j[k].photo || j[k].image || j[k].avatar || fallbackImg
+        }));
+    }
+
     box.innerHTML='';
-    if(!ids.length){box.innerHTML='<div class="empty">কোনো গ্রুপ লক করা নেই</div>';return}
-    ids.forEach((id,i)=>{
-      const g=j[id],d=document.createElement('div');
-      d.className='card';d.style.animationDelay=(i*.12)+'s';
+    if(!items.length){
+      box.innerHTML='<div class="empty">কোনো গ্রুপ লক করা নেই</div>';
+      return;
+    }
+
+    items.forEach((g,i)=>{
+      const d=document.createElement('div');
+      d.className='card';
+      d.style.animationDelay=(i*.12)+'s';
+      
       const im=document.createElement('img');
-      im.src=g.photo||'https://i.imgur.com/9GHOeOO.jpeg';im.alt='';
-      im.onerror=()=>{im.src='https://i.imgur.com/9GHOeOO.jpeg'};
+      im.src=g.photo;
+      im.alt=g.name;
+      im.onerror=()=>{im.src=fallbackImg};
+      
       const t=document.createElement('div');
-      const b=document.createElement('b');b.textContent=g.name;
-      const s=document.createElement('small');s.textContent='ID: '+id;
-      t.appendChild(b);t.appendChild(s);
-      const l=document.createElement('div');l.className='lock';l.textContent='🔒';
-      d.appendChild(im);d.appendChild(t);d.appendChild(l);box.appendChild(d);
+      const b=document.createElement('b');
+      b.textContent=g.name;
+      const s=document.createElement('small');
+      s.textContent='ID: '+g.id;
+      
+      t.appendChild(b);
+      t.appendChild(s);
+      
+      const l=document.createElement('div');
+      l.className='lock';
+      l.textContent='🔒';
+      
+      d.appendChild(im);
+      d.appendChild(t);
+      d.appendChild(l);
+      box.appendChild(d);
     });
-  }catch(e){box.innerHTML='<div class="empty">groups.json পড়া যায়নি</div>'}
+  }catch(e){
+    console.error(e);
+    box.innerHTML='<div class="empty">groups.json লোড করা যায়নি ('+e.message+')</div>';
+  }
 })();
 </script>
 </body>
